@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu API</title>
+</head>
+
+<body>
+  <h1>Delete menu item: DELETE /api/v1/menuItems/:menuItemId</h1>
+  <form id="add-menu-item">
+    <label for="menuItemId">Item ID</label>
+    <input type="text" name="menuItemId" id="menuItemId">
+    <br /> <br />
+
+    <button type="submit" id="submit">Delete menu item</button>
+  </form>
+  <pre id="response"></pre>
+
+  <script>
+    async function addMenuItem() {
+      const menuItemId = document.getElementById("menuItemId").value
+      try {
+        const res = await fetch("/api/v1/menuItems/" + menuItemId, {
+          method: "DELETE"
+        })
+
+        if (!res) throw new Error("No response")
+
+        return await res.json()
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    const onSubmit = (async (e) => {
+      e.preventDefault()
+      const data = await addMenuItem();
+      document.getElementById("response").innerHTML = JSON.stringify(data, undefined, 2)
+    })
+
+    document.getElementById("submit").addEventListener("click", onSubmit)
+  </script>
+
+</body>
+
+</html>
